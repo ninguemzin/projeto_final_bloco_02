@@ -1,35 +1,41 @@
 package com.generation.farmacia.model;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "tb_categoria")
-public class Categoria {
+@Table(name = "tb_produto")
+public class Produto {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@NotNull(message = "O Atributo Nome é obrigatório")
 	private String nome;
-
+	
 	@NotNull(message = "O Atributo Descrição é obrigatório")
 	private String descricao;
 	
-	@OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("categoria")
-	private List<Produto> produto;
+	@NotNull(message = "O Atributo preco é obrigatório")
+	private String preco;
 	
+	@NotNull(message = "O Atributo quantidade_estoque é obrigatório")
+	private String quantidade_estoque;
+	
+	@ManyToOne
+    @JoinColumn(name = "categoria_id")
+	@JsonIgnoreProperties("produto")
+	private Categoria categoria;
+
 	public Long getId() {
 		return id;
 	}
@@ -54,12 +60,28 @@ public class Categoria {
 		this.descricao = descricao;
 	}
 
-	public List<Produto> getProduto() {
-		return produto;
+	public String getPreco() {
+		return preco;
 	}
 
-	public void setProduto(List<Produto> produto) {
-		this.produto = produto;
+	public void setPreco(String preco) {
+		this.preco = preco;
 	}
-	
+
+	public String getQuantidade_estoque() {
+		return quantidade_estoque;
+	}
+
+	public void setQuantidade_estoque(String quantidade_estoque) {
+		this.quantidade_estoque = quantidade_estoque;
+	}
+
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
+
 }
